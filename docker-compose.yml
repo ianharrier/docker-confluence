@@ -1,0 +1,52 @@
+version: '2'
+
+services:
+  web:
+    build:
+      context: ./images/confluence
+      args:
+        - CONFLUENCE_VERSION=${CONFLUENCE_VERSION}
+        - GOSU_VERSION=1.10
+        - JAVA_VERSION=8
+        - JAVA_UPDATE=131
+        - JAVA_BUILD=11
+        - JAVA_SIG=d54c1d3a095b4ff2b6607d096fa80163
+    image: ianharrier/confluence:${CONFLUENCE_VERSION}
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - ${WEB_PORT}:8090
+    environment:
+      - PROXY_HOSTNAME=${WEB_PROXY_HOSTNAME}
+      - PROXY_PORT=${WEB_PROXY_PORT}
+      - PROXY_SCHEME=${WEB_PROXY_SCHEME}
+      - TIMEZONE=${TIMEZONE}
+    volumes:
+      - ./volumes/web/data:/var/atlassian/application-data/confluence
+  db:
+    image: postgres:9.5-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${DB_POSTGRES_DB}
+      - POSTGRES_USER=${DB_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${DB_POSTGRES_PASSWORD}
+    volumes:
+      - ./volumes/db/data:/var/lib/postgresql/data
+  backup:
+    build:
+      context: ./images/backup
+      args:
+        - COMPOSE_VERSION=1.13.0
+    image: ianharrier/confluence-backup:1.0.0
+    restart: unless-stopped
+    environment:
+      - OPERATION=${BACKUP_OPERATION}
+      - CRON_EXP=${BACKUP_CRON_EXP}
+      - RETENTION=${BACKUP_RETENTION}
+      - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
+      - TIMEZONE=${TIMEZONE}
+      - POSTGRES_DB=${DB_POSTGRES_DB}
+    volumes:
+      - ./:/srv/docker/${COMPOSE_PROJECT_NAME}
+      - /var/run/docker.sock:/var/run/docker.sock
