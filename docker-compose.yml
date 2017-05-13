@@ -38,15 +38,16 @@ services:
       context: ./images/backup
       args:
         - COMPOSE_VERSION=1.13.0
-    image: ianharrier/confluence-backup:1.0.0
+    image: ianharrier/confluence-backup:1.0.1
     restart: unless-stopped
     environment:
       - OPERATION=${BACKUP_OPERATION}
       - CRON_EXP=${BACKUP_CRON_EXP}
       - RETENTION=${BACKUP_RETENTION}
+      - HOST_PATH=${PWD}
       - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
       - TIMEZONE=${TIMEZONE}
       - POSTGRES_DB=${DB_POSTGRES_DB}
     volumes:
-      - ./:/srv/docker/${COMPOSE_PROJECT_NAME}
+      - ./:${PWD}
       - /var/run/docker.sock:/var/run/docker.sock
