@@ -47,11 +47,11 @@ echo "[I] Waiting for PostgreSQL container to complete initialization tasks."
 DB_READY=false
 while [ "$DB_READY" = "false" ]; do
   sleep 1
-  docker exec -i "$(docker-compose ps -q db 2>/dev/null)" psql -U postgres -d "$POSTGRES_DB" -c "\dt" &>/dev/null && DB_READY=true || DB_READY=false
+  docker exec -i "$(docker-compose ps -q db)" psql -U postgres -d "$POSTGRES_DB" -c "\dt" &>/dev/null && DB_READY=true || DB_READY=false
 done
 
 echo "[I] Restoring PostgreSQL database."
-docker exec -i "$(docker-compose ps -q db 2>/dev/null)" psql -U postgres -d "$POSTGRES_DB" &>/dev/null < backups/tmp_restore/db.sql
+docker exec -i "$(docker-compose ps -q db)" psql -U postgres -d "$POSTGRES_DB" &>/dev/null < backups/tmp_restore/db.sql
 
 echo "[I] Restoring Confluence home directory."
 if [ ! -d volumes/web ]; then

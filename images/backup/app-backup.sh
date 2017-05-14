@@ -26,7 +26,7 @@ else
   mkdir -p backups/tmp_backup
 
   echo "[I] Backing up Confluence database."
-  docker exec -i "$(docker-compose ps -q db 2>/dev/null)" su postgres -c 'pg_dump $POSTGRES_DB' > backups/tmp_backup/db.sql
+  docker exec -i "$(docker-compose ps -q db)" su postgres -c 'pg_dump $POSTGRES_DB' > backups/tmp_backup/db.sql
 
   echo "[I] Backing up Confluence home directory."
   cp -a volumes/web/data backups/tmp_backup/home

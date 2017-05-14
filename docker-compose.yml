@@ -37,8 +37,9 @@ services:
     build:
       context: ./images/backup
       args:
+        - GLIBC_VERSION=2.25-r0
         - COMPOSE_VERSION=1.13.0
-    image: ianharrier/confluence-backup:1.0.1
+    image: ianharrier/confluence-backup:1.0.2
     restart: unless-stopped
     environment:
       - OPERATION=${BACKUP_OPERATION}
