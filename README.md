@@ -27,7 +27,7 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 1. Ensure the following are installed on your system:
 
     * [Docker](https://docs.docker.com/engine/installation/)
-    * [Docker Compose](https://docs.docker.com/compose/install/#install-as-a-container)
+    * [Docker Compose](https://docs.docker.com/compose/install/) **Warning: [installing as a container](https://docs.docker.com/compose/install/#install-as-a-container) is not supported.**
     * `git`
 
 2. Clone this repo to a location on your system. *Note: in all of the guides on this page, it is assumed the repo is cloned to `/srv/docker/confluence`.*
