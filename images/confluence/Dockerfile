@@ -79,12 +79,20 @@ RUN set -ex \
         && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8090
+
 VOLUME ["${CONFLUENCE_HOME}"]
 
 WORKDIR ${CONFLUENCE_INSTALL}
-CMD ["./bin/catalina.sh", "run"]
+
+CMD ["./bin/catalina.sh","run"]
+
+#-------------------------------------------------------------------------------
+#  Scripts
+#-------------------------------------------------------------------------------
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+
 RUN set -ex \
         && chmod +x /usr/local/bin/docker-entrypoint
+
 ENTRYPOINT ["docker-entrypoint"]
