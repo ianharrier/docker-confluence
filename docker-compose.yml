@@ -25,7 +25,7 @@ services:
         volumes:
             - ./volumes/web/data:/var/atlassian/application-data/confluence
     db:
-        image: postgres:9.5-alpine
+        image: postgres:9.6-alpine
         restart: unless-stopped
         environment:
             - POSTGRES_DB=${DB_POSTGRES_DB}
