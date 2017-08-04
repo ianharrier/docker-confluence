@@ -22,6 +22,8 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 
 ## How-to guides
 
+*Note: some of the commands in these guides may require root access to your system. If that is the case, either run the commands while logged in to the root account, or simulate a login to the root account using `sudo -i`. Due to the way environment variables are passed on some systems, typing `sudo` before each command is __not__ a supported method of running the commands in these guides with root access.*
+
 ### Installing
 
 1. Ensure the following are installed on your system:
@@ -33,7 +35,7 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 2. Clone this repo to a location on your system. *Note: in all of the guides on this page, it is assumed the repo is cloned to `/srv/docker/confluence`.*
 
     ```shell
-    sudo git clone https://github.com/ianharrier/docker-confluence.git /srv/docker/confluence
+    git clone https://github.com/ianharrier/docker-confluence.git /srv/docker/confluence
     ```
 
 3. Set the working directory to the root of the repo.
@@ -45,19 +47,19 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 4. Create the `.env` file using `.env.template` as a template.
 
     ```shell
-    sudo cp .env.template .env
+    cp .env.template .env
     ```
 
 5. Using a text editor, read the comments in the `.env` file, and make modifications to suit your environment.
 
     ```shell
-    sudo vi .env
+    vi .env
     ```
 
 6. Start Confluence in the background.
 
     ```shell
-    sudo docker-compose up -d
+    docker-compose up -d
     ```
 
 7. In a web browser, start the Confluence setup process by navigating to `http://<Docker-host-IP>:8090` (or whatever port you specified in the `.env` file).
@@ -77,43 +79,43 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 2. Remove the current application stack.
 
     ```shell
-    sudo docker-compose down
+    docker-compose down
     ```
 
 3. Pull any changes from the repo.
 
     ```shell
-    sudo git pull
+    git pull
     ```
 
 4. Backup the `.env` file.
 
     ```shell
-    sudo mv .env backups/.env.old
+    mv .env backups/.env.old
     ```
 
 5. Create a new `.env` file using `.env.template` as a template.
 
     ```shell
-    sudo cp .env.template .env
+    cp .env.template .env
     ```
 
 6. Using a text editor, modify the new `.env` file. **Warning: it is especially important to use the same database name, username, and password as what exists in `backups/.env.old`.**
 
     ```shell
-    sudo vi .env
+    vi .env
     ```
 
 7. Start Confluence in the background.
 
     ```shell
-    sudo docker-compose up -d
+    docker-compose up -d
     ```
 
 8. When all is confirmed working, remove the the `.env.old` file.
 
     ```shell
-    sudo rm backups/.env.old
+    rm backups/.env.old
     ```
 
 ### Running a one-time manual backup
@@ -127,7 +129,7 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 2. Run the backup script.
 
     ```shell
-    sudo docker-compose exec backup app-backup
+    docker-compose exec backup app-backup
     ```
 
 ### Restoring from a backup
@@ -143,7 +145,7 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 2. Make sure the **backup** container is running. *Note: if the container is already running, you can skip this step, but it will not hurt to run it anyway.*
 
     ```shell
-    sudo docker-compose up -d backup
+    docker-compose up -d backup
     ```
 
 3. List the available files in the `backups` directory.
@@ -155,13 +157,13 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 4. Specify a file to restore in the following format:
 
     ```shell
-    sudo docker-compose exec backup app-restore <backup-file-name>
+    docker-compose exec backup app-restore <backup-file-name>
     ```
 
     For example:
 
     ```shell
-    sudo docker-compose exec backup app-restore 20170501T031500+0000.tar.gz
+    docker-compose exec backup app-restore 20170501T031500+0000.tar.gz
     ```
 
 ### Uninstalling
@@ -175,11 +177,11 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 2. Remove the application stack.
 
     ```shell
-    sudo docker-compose down
+    docker-compose down
     ```
 
 3. Delete the repo. **Warning: this step is optional. If you delete the repo, all of your Confluence data, including backups, will be lost.**
 
     ```shell
-    sudo rm -rf /srv/docker/confluence
+    rm -rf /srv/docker/confluence
     ```
