@@ -70,52 +70,18 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 
 ### Upgrading
 
+**Warning: the upgrade process will immediately stop and upgrade the current production environment. The application stack will be unavailable while it is being upgraded.**
+
 1. Set the working directory to the root of the repo.
 
     ```shell
-    cd /srv/docker/confluence
+    cd /srv/docker/jira
     ```
 
-2. Remove the current application stack.
+2. Run the upgrade script.
 
     ```shell
-    docker-compose down
-    ```
-
-3. Pull any changes from the repo.
-
-    ```shell
-    git pull
-    ```
-
-4. Backup the `.env` file.
-
-    ```shell
-    mv .env backups/.env.old
-    ```
-
-5. Create a new `.env` file using `.env.template` as a template.
-
-    ```shell
-    cp .env.template .env
-    ```
-
-6. Using a text editor, modify the new `.env` file. **Warning: it is especially important to use the same database name, username, and password as what exists in `backups/.env.old`.**
-
-    ```shell
-    vi .env
-    ```
-
-7. Start Confluence in the background.
-
-    ```shell
-    docker-compose up -d
-    ```
-
-8. When all is confirmed working, remove the the `.env.old` file.
-
-    ```shell
-    rm backups/.env.old
+    ./scripts/app-upgrade.sh
     ```
 
 ### Running a one-time manual backup
