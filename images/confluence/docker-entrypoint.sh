@@ -15,7 +15,7 @@ fi
 
 if [ "$TIMEZONE" ]; then
     echo "[I] Setting the time zone."
-    cp "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
+    ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
     echo "$TIMEZONE" > /etc/timezone
 fi
 
