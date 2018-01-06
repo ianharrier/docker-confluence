@@ -75,7 +75,7 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 1. Set the working directory to the root of the repo.
 
     ```shell
-    cd /srv/docker/jira
+    cd /srv/docker/confluence
     ```
 
 2. Run the upgrade script.
@@ -89,7 +89,7 @@ Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-ser
 1. Set the working directory to the root of the repo.
 
     ```shell
-    cd /srv/docker/jira
+    cd /srv/docker/confluence
     ```
 
 2. Run the backup script.
