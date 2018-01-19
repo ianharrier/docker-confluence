@@ -19,5 +19,10 @@ echo "[I] Setting permissions on Confluence home directory."
 chown -R ${RUN_USER}:${RUN_GROUP}  "${CONFLUENCE_HOME}"
 chmod -R u=rwx,go-rwx              "${CONFLUENCE_HOME}"
 
+if [ -e ${CONFLUENCE_INSTALL}/temp/synchrony.pid ]; then
+    echo "[I] Removing synchrony.pid file from previous run."
+    rm ${CONFLUENCE_INSTALL}/temp/synchrony.pid
+fi
+
 echo "[I] Entrypoint tasks complete. Starting Confluence."
 exec gosu ${RUN_USER} "$@"
