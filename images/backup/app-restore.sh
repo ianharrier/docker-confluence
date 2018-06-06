@@ -46,8 +46,8 @@ docker-compose up -d db &>/dev/null
 echo "[I] Waiting for PostgreSQL container to complete initialization tasks."
 DB_READY=false
 while [ "$DB_READY" = "false" ]; do
-    sleep 1
-    docker exec -i "$(docker-compose ps -q db)" psql -U postgres -d "$POSTGRES_DB" -c "\dt" &>/dev/null && DB_READY=true || DB_READY=false
+	nc -z db 5432 &>/dev/null && DB_READY=true || DB_READY=false
+	sleep 5
 done
 
 echo "[I] Restoring PostgreSQL database."
