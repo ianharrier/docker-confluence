@@ -24,7 +24,7 @@ echo "=== Updating environment file. ===========================================
 OLD_CONFLUENCE_VERSION=$(grep ^CONFLUENCE_VERSION= .env | cut -d = -f 2)
 NEW_CONFLUENCE_VERSION=$(grep ^CONFLUENCE_VERSION= .env.template | cut -d = -f 2)
 echo "[I] Upgrading Confluence from '$OLD_CONFLUENCE_VERSION' to '$NEW_CONFLUENCE_VERSION'."
-sed -i.bak "s/^CONFLUENCE_VERSION=.*/CONFLUENCE_VERSION=$NEW_CONFLUENCE_VERSION/g" .env
+sed -i.bak -e "s/^CONFLUENCE_VERSION=.*/CONFLUENCE_VERSION=$NEW_CONFLUENCE_VERSION/g" .env
 
 echo "=== Deleting old images. ======================================================="
 IMAGE_BACKUP=$(docker images ianharrier/confluence-backup -q)
