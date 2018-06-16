@@ -1,7 +1,5 @@
 FROM debian:9
 
-MAINTAINER Ian Harrier <github@harrier.us>
-
 #-------------------------------------------------------------------------------
 #  Oracle Server JRE (http://www.oracle.com/technetwork/java/javase/downloads)
 #-------------------------------------------------------------------------------
