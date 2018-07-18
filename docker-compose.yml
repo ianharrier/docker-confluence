@@ -8,9 +8,9 @@ services:
                 - CONFLUENCE_VERSION=${CONFLUENCE_VERSION}
                 - GOSU_VERSION=1.10
                 - JAVA_VERSION=8
-                - JAVA_UPDATE=171
-                - JAVA_BUILD=11
-                - JAVA_SIG=512cd62ec5174c3487ac17c61aaa89e8
+                - JAVA_UPDATE=181
+                - JAVA_BUILD=13
+                - JAVA_SIG=96a7b8442fe848ef90c96a2fad6ed6d1
         image: ianharrier/confluence:${CONFLUENCE_VERSION}
         restart: unless-stopped
         depends_on:
