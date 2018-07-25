@@ -3,11 +3,15 @@ set -e
 
 START_TIME=$(date +%s)
 
-cd "$HOST_PATH"
+if [ ! -d .git ]; then
+    echo "[E] This script needs to run from the top directory of the repo. Current working directory:"
+    echo "      $(pwd)"
+    exit 1
+fi
 
 if [ ! $1 ]; then
     echo "[E] Specify the name of a backup file to restore. Example:"
-    echo "      docker-compose exec backup app-restore 20170501T031500+0000.tar.gz"
+    echo "      $0 20170501T031500+0000.tar.gz"
     exit 1
 fi
 
@@ -26,13 +30,8 @@ BACKUP_FILE="$1"
 echo "[I] Creating working directory."
 mkdir -p backups/tmp_restore
 
-echo "[I] Shutting down and removing Confluence container."
-docker-compose stop web &>/dev/null
-docker-compose rm --force web &>/dev/null
-
-echo "[I] Shutting down and removing PostgreSQL container."
-docker-compose stop db &>/dev/null
-docker-compose rm --force db &>/dev/null
+echo "[I] Shutting down and removing application stack."
+docker-compose down &>/dev/null
 
 echo "[I] Removing Confluence and PostgreSQL persistent data."
 rm -rf volumes/web/data volumes/db/data
@@ -44,14 +43,12 @@ echo "[I] Creating and starting PostgreSQL container."
 docker-compose up -d db &>/dev/null
 
 echo "[I] Waiting for PostgreSQL container to complete initialization tasks."
-DB_READY=false
-while [ "$DB_READY" = "false" ]; do
-	nc -z db 5432 &>/dev/null && DB_READY=true || DB_READY=false
-	sleep 5
+until (docker-compose logs db | grep "PostgreSQL init process complete") &>/dev/null; do
+    sleep 5
 done
 
 echo "[I] Restoring PostgreSQL database."
-docker exec -i "$(docker-compose ps -q db)" psql -U postgres -d "$POSTGRES_DB" &>/dev/null < backups/tmp_restore/db.sql
+docker exec -i "$(docker-compose ps -q db)" sh -c 'exec psql -U postgres -d "$POSTGRES_DB" &>/dev/null' < backups/tmp_restore/db.sql
 
 echo "[I] Restoring Confluence home directory."
 if [ ! -d volumes/web ]; then
@@ -59,8 +56,8 @@ if [ ! -d volumes/web ]; then
 fi
 mv backups/tmp_restore/home volumes/web/data/
 
-echo "[I] Creating and starting Confluence container."
-docker-compose up -d web &>/dev/null
+echo "[I] Creating and starting application stack."
+docker-compose up -d &>/dev/null
 
 echo "[I] Removing working directory."
 rm -rf backups/tmp_restore

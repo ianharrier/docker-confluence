@@ -33,24 +33,19 @@ services:
             - POSTGRES_PASSWORD=${DB_POSTGRES_PASSWORD}
         volumes:
             - ./volumes/db/data:/var/lib/postgresql/data:Z
-    backup:
+    cron:
         build:
-            context: ./images/backup
-            args:
-                - GLIBC_VERSION=2.27-r0
-                - COMPOSE_VERSION=1.21.2
-        image: ianharrier/confluence-backup:1.0.12
+            context: ./images/cron
+        image: ianharrier/confluence-cron:1.1.0
         restart: unless-stopped
         environment:
-            - OPERATION=${BACKUP_OPERATION}
-            - CRON_EXP=${BACKUP_CRON_EXP}
-            - RETENTION=${BACKUP_RETENTION}
+            - BACKUP_OPERATION=${BACKUP_OPERATION}
+            - BACKUP_CRON_EXP=${BACKUP_CRON_EXP}
+            - BACKUP_RETENTION=${BACKUP_RETENTION}
             - HOST_PATH=${PWD}
-            - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
             - TIMEZONE=${TIMEZONE}
             - POSTGRES_DB=${DB_POSTGRES_DB}
+            - POSTGRES_USER=${DB_POSTGRES_USER}
+            - POSTGRES_PASSWORD=${DB_POSTGRES_PASSWORD}
         volumes:
-            - ./:${PWD}
-            - /var/run/docker.sock:/var/run/docker.sock
-        security_opt:
-            - label:disable
+            - ./:${PWD}:z
