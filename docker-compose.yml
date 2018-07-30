@@ -23,7 +23,7 @@ services:
             - PROXY_SCHEME=${WEB_PROXY_SCHEME}
             - TIMEZONE=${TIMEZONE}
         volumes:
-            - ./volumes/web/data:/var/atlassian/application-data/confluence:Z
+            - ./volumes/web/data:/var/atlassian/application-data/confluence:z
     db:
         image: postgres:9.6-alpine
         restart: unless-stopped
@@ -32,7 +32,7 @@ services:
             - POSTGRES_USER=${DB_POSTGRES_USER}
             - POSTGRES_PASSWORD=${DB_POSTGRES_PASSWORD}
         volumes:
-            - ./volumes/db/data:/var/lib/postgresql/data:Z
+            - ./volumes/db/data:/var/lib/postgresql/data:z
     cron:
         build:
             context: ./images/cron
