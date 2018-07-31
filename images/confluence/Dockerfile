@@ -24,24 +24,6 @@ RUN set -ex \
         && rm -rf /var/lib/apt/lists/*
 
 #-------------------------------------------------------------------------------
-#  gosu (https://github.com/tianon/gosu)
-#-------------------------------------------------------------------------------
-
-ARG GOSU_VERSION
-
-RUN set -ex \
-        && apt-get update && apt-get -y install \
-               curl \
-        && curl --location --retry 3 \
-               --output /usr/local/bin/gosu \
-               https://github.com/tianon/gosu/releases/download/"${GOSU_VERSION}"/gosu-"$(dpkg --print-architecture)" \
-        && chmod +x /usr/local/bin/gosu \
-        && gosu nobody true \
-        && apt-get -y purge --auto-remove \
-               curl \
-        && rm -rf /var/lib/apt/lists/*
-
-#-------------------------------------------------------------------------------
 #  Confluence (https://www.atlassian.com/software/confluence/download)
 #-------------------------------------------------------------------------------
 
@@ -84,6 +66,9 @@ CMD ["./bin/catalina.sh","run"]
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
 RUN set -ex \
-        && chmod +x /usr/local/bin/docker-entrypoint
+        && apt-get update && apt-get -y install \
+               gosu \
+        && chmod +x /usr/local/bin/docker-entrypoint \
+        && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT ["docker-entrypoint"]
