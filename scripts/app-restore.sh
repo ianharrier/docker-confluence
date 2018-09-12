@@ -48,7 +48,7 @@ until (docker-compose logs db | grep "PostgreSQL init process complete") &>/dev/
 done
 
 echo "[I] Restoring PostgreSQL database."
-docker exec -i "$(docker-compose ps -q db)" sh -c 'exec psql -U postgres -d "$POSTGRES_DB" &>/dev/null' < backups/tmp_restore/db.sql
+docker exec -i "$(docker-compose ps -q db)" sh -c 'exec psql -U $POSTGRES_USER -d "$POSTGRES_DB" &>/dev/null' < backups/tmp_restore/db.sql
 
 echo "[I] Restoring Confluence home directory."
 if [ ! -d volumes/web ]; then
