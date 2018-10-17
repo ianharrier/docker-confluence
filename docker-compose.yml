@@ -7,9 +7,9 @@ services:
             args:
                 - CONFLUENCE_VERSION=${CONFLUENCE_VERSION}
                 - JAVA_VERSION=8
-                - JAVA_UPDATE=181
-                - JAVA_BUILD=13
-                - JAVA_SIG=96a7b8442fe848ef90c96a2fad6ed6d1
+                - JAVA_UPDATE=191
+                - JAVA_BUILD=12
+                - JAVA_SIG=2787e4a523244c269598db4e85c51e0c
         image: ianharrier/confluence:${CONFLUENCE_VERSION}
         restart: unless-stopped
         depends_on:
