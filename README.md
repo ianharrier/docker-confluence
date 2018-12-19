@@ -18,7 +18,7 @@ This repo uses [Docker](https://www.docker.com) and [Docker Compose](https://doc
 
 This is more than just a Confluence image. Included in this repo is everything you need to get Confluence up and running as quickly as possible and a **pre-configured backup and restoration solution** that is compliant with Atlassian's [production backup recommendations](https://confluence.atlassian.com/doc/production-backup-strategy-38797389.html).
 
-Atlassian's [Confluence image](https://hub.docker.com/r/atlassian/confluence-server/) on the Docker Hub uses OpenJDK, which is not a [supported platform](https://confluence.atlassian.com/doc/supported-platforms-207488198.html). The Confluence image in this repo uses Oracle's JRE, which is a supported platform.
+The Confluence image in this repo uses AdoptOpenJDK, which is a [supported platform](https://confluence.atlassian.com/doc/supported-platforms-207488198.html).
 
 ## How-to guides
 
