@@ -37,6 +37,7 @@ ENV RUN_GROUP=daemon
 RUN set -ex \
         && apt-get update && apt-get -y install \
                curl \
+               fontconfig \
         && mkdir -p                           "${CONFLUENCE_INSTALL}" \
         && curl --location --retry 3 \
                https://www.atlassian.com/software/confluence/downloads/binary/atlassian-confluence-"${CONFLUENCE_VERSION}".tar.gz \
