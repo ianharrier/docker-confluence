@@ -17,7 +17,7 @@ RUN set -ex \
         && mkdir -p "${JAVA_HOME}" \
         && curl --location --retry 3 \
                https://github.com/AdoptOpenJDK/openjdk"${JAVA_VERSION}"-binaries/releases/download/jdk"${JAVA_VERSION}"u"${JAVA_UPDATE}"-b"${JAVA_BUILD}"/OpenJDK"${JAVA_VERSION}"U-jre_x64_linux_hotspot_"${JAVA_VERSION}"u"${JAVA_UPDATE}"b"${JAVA_BUILD}".tar.gz \
-             | tar -xz --directory "${JAVA_HOME}" --strip-components=2 --no-same-owner \
+             | tar -xz --directory "${JAVA_HOME}" --strip-components=1 --no-same-owner \
         && apt-get -y purge --auto-remove \
                curl \
         && rm -rf /var/lib/apt/lists/*
